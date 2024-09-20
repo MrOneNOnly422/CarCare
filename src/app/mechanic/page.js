@@ -12,7 +12,7 @@ function MechanicsHomepage() {
               {/* Background image */}
               <Box
                   sx={{
-                      backgroundImage: `url(/path-to-engine-background.jpg)`, // Background image path
+                      backgroundImage: `../public/img/1.jpg`, // Background image path
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                       height: '100vh',
@@ -38,22 +38,30 @@ function MechanicsHomepage() {
                               </Grid>
                               <Grid container spacing={2} sx={{ mt: 2 }}>
                                   <Grid item xs={12}>
-                                      <Button variant="contained" color="primary" fullWidth>
+                                      <Button variant="contained" color="primary" fullWidth 
+                                     href='/EditProducts'
+                                      >
                                           View/Modify Shop Inventory
                                       </Button>
                                   </Grid>
                                   <Grid item xs={12}>
-                                      <Button variant="contained" color="primary" fullWidth>
+                                      <Button variant="contained" color="primary" fullWidth
+                                      href='/bookingrequest'
+                                      >
                                           View Booking Requests
                                       </Button>
                                   </Grid>
                                   <Grid item xs={12}>
-                                      <Button variant="contained" color="primary" fullWidth>
+                                      <Button variant="contained" color="primary" fullWidth
+                                      href='/pendingorders'
+                                      >
                                           View Pending Orders
                                       </Button>
                                   </Grid>
                                   <Grid item xs={12}>
-                                      <Button variant="contained" color="primary" fullWidth>
+                                      <Button variant="contained" color="primary" fullWidth
+                                      href='/serviceedit'
+                                      >
                                           View/Modify Services
                                       </Button>
                                   </Grid>

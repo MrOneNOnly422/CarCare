@@ -1,103 +1,190 @@
 'use client';
 
-import React, { Component } from 'react';
-import { AppBar, Toolbar, Typography, Button, CssBaseline, Box, IconButton, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+'use client';
+
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
-import EventIcon from '@mui/icons-material/Event'; 
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; 
-import InfoIcon from '@mui/icons-material/Info';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import Link from 'next/link'; // For Next.js; use from 'react-router-dom' for React Router
 
-class Layout extends Component {
-  state = {
-    drawerOpen: false,
+const pages = [
+  { label: 'Home', path: '/' },
+  { label: 'Book A Service', path: '/servicebook' },
+  { label: 'Shop', path: '/shop' },
+  { label: 'About Us', path: '/about' },
+];
+const settings = [
+  { label: 'Profile', path: '/profileedit(user)' }, 
+  { label: 'Account' },
+  { label: 'Logout', path: '/login' },
+];
+
+function Layout({ children }) {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
   };
 
-  toggleDrawer = (open) => () => {
-    this.setState({ drawerOpen: open });
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
   };
 
-  render() {
-    const { drawerOpen } = this.state;
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
-    return (
-      <>
-        <CssBaseline />
-        
-        <AppBar position="static" sx={{ backgroundColor: '#333' }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              onClick={this.toggleDrawer(true)}
-              sx={{ mr: 2 }}
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  return (
+    <>
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <img
+              src="/CarCare.png"
+              alt="CarCare Logo"
+              style={{ width: '40px', height: '40px', marginRight: '8px' }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
             >
-              <MenuIcon />
-            </IconButton>
-            
-            {/* Add logo image next to the CarCare Typography */}
-            <Box component="img" src="/CarCare.png" alt="CarCare Logo" sx={{ height: 40, mr: 2 }} />
-
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Carcare
+              CARCARE
             </Typography>
 
-            <Button color="inherit">LOGIN / SIGNUP</Button>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{ display: { xs: 'block', md: 'none' } }}
+              >
+                {pages.map(({ label, path }) => (
+                  <MenuItem key={label} onClick={handleCloseNavMenu}>
+                    <Link href={path} passHref>
+                      <Typography sx={{ textAlign: 'center' }}>{label}</Typography>
+                    </Link>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href="#"
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              CARCARE
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {pages.map(({ label, path }) => (
+                <Link key={label} href={path} passHref>
+                  <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                    {label}
+                  </Button>
+                </Link>
+              ))}
+            </Box>
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Profile Picture" src="/path-to-profile-picture.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map(({ label, path }) => (
+                  <MenuItem key={label} onClick={handleCloseUserMenu}>
+                    {path ? ( // Conditional rendering for Link
+                      <Link href={path} passHref>
+                        <Typography sx={{ textAlign: 'center' }}>{label}</Typography>
+                      </Link>
+                    ) : (
+                      <Typography sx={{ textAlign: 'center' }}>{label}</Typography>
+                    )}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
           </Toolbar>
-        </AppBar>
+        </Container>
+      </AppBar>
 
-        {/* Drawer for menu items */}
-        <Drawer 
-          anchor="left" 
-          open={drawerOpen} 
-          onClose={this.toggleDrawer(false)} 
-          sx={{ '& .MuiDrawer-paper': { backgroundColor: '#444', color: '#fff', width: 250 } }} // Customize background color and width
-        >
-          <Box sx={{ padding: '16px', backgroundColor: '#333', color: '#fff' }}>
-            <Typography variant="h6">Menu</Typography>
-          </Box>
-          <Box
-            role="presentation"
-            onClick={this.toggleDrawer(false)}
-            onKeyDown={this.toggleDrawer(false)}
-          >
-            <List>
-              <ListItem button sx={{ '&:hover': { backgroundColor: '#555' } }}>
-                <ListItemIcon>
-                  <HomeIcon sx={{ color: '#fff' }} />
-                </ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <EventIcon sx={{ color: '#fff' }} />
-                </ListItemIcon>
-                <ListItemText primary="Booking" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <ShoppingCartIcon sx={{ color: '#fff' }} />
-                </ListItemIcon>
-                <ListItemText primary="Cart" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <InfoIcon sx={{ color: '#fff' }} />
-                </ListItemIcon>
-                <ListItemText primary="About Us" />
-              </ListItem>
-            </List>
-          </Box>
-        </Drawer>
-
-        <Box sx={{ mt: 5 }}>
-          {this.props.children}
-        </Box>
-      </>
-    );
-  }
+      {/* Main content below the AppBar */}
+      <Box sx={{ mt: 5 }}>
+        {children}
+      </Box>
+    </>
+  );
 }
 
 export default Layout;
-

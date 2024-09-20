@@ -1,6 +1,7 @@
 'use client';
 
 import React, { Component } from 'react';
+import Footer from '../components/footer'; // Ensure correct case and path
 import { Container, Typography, Button, Box } from '@mui/material';
 import Layout from '../components/layout'; // or '../layouts/Layout'
 
@@ -21,11 +22,14 @@ class Homepage extends Component {
             </Button>
           </Box>
         </Container>
+        {/* Footer added below */}
+        <Footer />
       </Layout>
     );
   }
 }
 
 export default Homepage;
+
 
 
