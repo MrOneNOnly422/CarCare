@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Container, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, TextField, Box, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Container, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, TextField, Box, IconButton } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import Layout from '../components/layout';
 
@@ -52,72 +52,83 @@ function ServicesPage() {
 
   return (
     <Layout>
-      <Container sx={{ mt: 4 }}>
-        <Paper elevation={3} sx={{ p: 3 }}>
-          <Typography variant="h5" gutterBottom>
-            View/Modify Services
-          </Typography>
+      {/* Background Box with background image */}
+      <Box
+        sx={{
+          backgroundImage: `url("/img/1.jpg")`, // Set the background image here
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '100vh',
+          padding: '20px',
+        }}
+      >
+        <Container sx={{ mt: 4 }}>
+          <Paper elevation={3} sx={{ p: 3 }}>
+            <Typography variant="h5" gutterBottom>
+              View/Modify Services
+            </Typography>
 
-          {/* Table to display services */}
-          <TableContainer component={Paper} sx={{ mt: 3 }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Service Name</TableCell>
-                  <TableCell>Price (PHP)</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {services.map((service) => (
-                  <TableRow key={service.id}>
-                    <TableCell>{service.name}</TableCell>
-                    <TableCell>{service.price}</TableCell>
-                    <TableCell>
-                      <IconButton color="primary" onClick={() => handleEditClick(service)}>
-                        <Edit />
-                      </IconButton>
-                      <IconButton color="error" onClick={() => handleDeleteService(service.id)}>
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
+            {/* Table to display services */}
+            <TableContainer component={Paper} sx={{ mt: 3 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Service Name</TableCell>
+                    <TableCell>Price (PHP)</TableCell>
+                    <TableCell>Actions</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {services.map((service) => (
+                    <TableRow key={service.id}>
+                      <TableCell>{service.name}</TableCell>
+                      <TableCell>{service.price}</TableCell>
+                      <TableCell>
+                        <IconButton color="primary" onClick={() => handleEditClick(service)}>
+                          <Edit />
+                        </IconButton>
+                        <IconButton color="error" onClick={() => handleDeleteService(service.id)}>
+                          <Delete />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-          {/* Add or Edit Service Form */}
-          <Box sx={{ mt: 3 }}>
-            <Typography variant="h6">{isEditing ? 'Edit Service' : 'Add a New Service'}</Typography>
-            <TextField
-              label="Service Name"
-              name="name"
-              value={newService.name}
-              onChange={handleInputChange}
-              fullWidth
-              sx={{ mt: 2 }}
-            />
-            <TextField
-              label="Price (PHP)"
-              name="price"
-              value={newService.price}
-              onChange={handleInputChange}
-              fullWidth
-              sx={{ mt: 2 }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ mt: 2 }}
-              onClick={isEditing ? handleEditService : handleAddService}
-              disabled={!newService.name || !newService.price}
-            >
-              {isEditing ? 'Update Service' : 'Add Service'}
-            </Button>
-          </Box>
-        </Paper>
-      </Container>
+            {/* Add or Edit Service Form */}
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="h6">{isEditing ? 'Edit Service' : 'Add a New Service'}</Typography>
+              <TextField
+                label="Service Name"
+                name="name"
+                value={newService.name}
+                onChange={handleInputChange}
+                fullWidth
+                sx={{ mt: 2 }}
+              />
+              <TextField
+                label="Price (PHP)"
+                name="price"
+                value={newService.price}
+                onChange={handleInputChange}
+                fullWidth
+                sx={{ mt: 2 }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+                onClick={isEditing ? handleEditService : handleAddService}
+                disabled={!newService.name || !newService.price}
+              >
+                {isEditing ? 'Update Service' : 'Add Service'}
+              </Button>
+            </Box>
+          </Paper>
+        </Container>
+      </Box>
     </Layout>
   );
 }

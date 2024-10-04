@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Container, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Box } from '@mui/material';
+import { Container, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Box } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import Layout from '../components/layout';
 
 function BookingRequests() {
@@ -29,62 +31,73 @@ function BookingRequests() {
 
   return (
     <Layout>
-      <Container sx={{ mt: 4 }}>
-        <Paper elevation={3} sx={{ p: 3 }}>
-          <Typography variant="h5" gutterBottom>
-            Booking Requests
-          </Typography>
+      <Box
+        sx={{
+          backgroundImage: `url("/img/1.jpg")`, // Replace with your image path
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+        }}
+      >
+        <Container sx={{ mt: 4 }}>
+          <Paper elevation={3} sx={{ p: 3, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
+            <Typography variant="h5" gutterBottom>
+              Booking Requests
+            </Typography>
 
-          {/* Table to display booking requests */}
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Service</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {requests.map((request) => (
-                  <TableRow key={request.id}>
-                    <TableCell>{request.name}</TableCell>
-                    <TableCell>{request.service}</TableCell>
-                    <TableCell>{request.date}</TableCell>
-                    <TableCell>{request.status}</TableCell>
-                    <TableCell>
-                      {request.status === 'Pending' && (
-                        <>
-                          <Button 
-                            variant="contained" 
-                            color="primary" 
-                            onClick={() => handleApprove(request.id)} 
-                            sx={{ mr: 1 }}
-                          >
-                            Approve
-                          </Button>
-                          <Button 
-                            variant="contained" 
-                            color="error" 
-                            onClick={() => handleReject(request.id)}
-                          >
-                            Reject
-                          </Button>
-                        </>
-                      )}
-                      {request.status !== 'Pending' && (
-                        <Typography>{request.status}</Typography>
-                      )}
-                    </TableCell>
+            {/* Table to display booking requests */}
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Service</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Actions</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </Container>
+                </TableHead>
+                <TableBody>
+                  {requests.map((request) => (
+                    <TableRow key={request.id}>
+                      <TableCell>{request.name}</TableCell>
+                      <TableCell>{request.service}</TableCell>
+                      <TableCell>{request.date}</TableCell>
+                      <TableCell>{request.status}</TableCell>
+                      <TableCell>
+                        {request.status === 'Pending' && (
+                          <>
+                            <IconButton
+                              color="primary"
+                              onClick={() => handleApprove(request.id)}
+                              sx={{ mr: 1 }}
+                            >
+                              <CheckCircleIcon />
+                            </IconButton>
+                            <IconButton
+                              color="error"
+                              onClick={() => handleReject(request.id)}
+                            >
+                              <CancelIcon />
+                            </IconButton>
+                          </>
+                        )}
+                        {request.status !== 'Pending' && (
+                          <Typography>{request.status}</Typography>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Container>
+      </Box>
     </Layout>
   );
 }
