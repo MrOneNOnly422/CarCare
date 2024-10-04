@@ -12,7 +12,7 @@ function MechanicsHomepage() {
               {/* Background image */}
               <Box
                   sx={{
-                      backgroundImage: `../public/img/1.jpg`, // Background image path
+                    backgroundImage: `url("/img/1.jpg")`, // Background image path
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                       height: '100vh',
