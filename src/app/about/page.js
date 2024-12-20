@@ -11,7 +11,7 @@ function AboutUsPage() {
         <Layout>
             <Box
                 sx={{
-                    backgroundImage: `url(/path-to-engine-background.jpg)`, // Background image path
+                    backgroundImage: `url('/img/4.jpg')`, // Background image path
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     height: '100vh',

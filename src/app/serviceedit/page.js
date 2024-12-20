@@ -52,19 +52,25 @@ function ServicesPage() {
 
   return (
     <Layout>
-      {/* Background Box with background image */}
+      {/* Fullscreen Background Box with image */}
       <Box
         sx={{
-          backgroundImage: `url("/img/1.jpg")`, // Set the background image here
+          backgroundImage: `url("/img/4.jpg")`, // Updated background image
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          minHeight: '100vh',
+          backgroundRepeat: 'no-repeat',
+          minHeight: '100vh', // Full viewport height
           padding: '20px',
+          marginTop: '-64px', // Adjusted to offset AppBar height
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
         }}
       >
         <Container sx={{ mt: 4 }}>
-          <Paper elevation={3} sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
+          <Paper elevation={4} sx={{ p: 3, borderRadius: 2, backgroundColor: 'rgba(255, 255, 255, 0.85)' }}>
+            <Typography variant="h5" gutterBottom sx={{ color: '#0288d1', fontWeight: 'bold' }}>
               View/Modify Services
             </Typography>
 
@@ -72,22 +78,22 @@ function ServicesPage() {
             <TableContainer component={Paper} sx={{ mt: 3 }}>
               <Table>
                 <TableHead>
-                  <TableRow>
-                    <TableCell>Service Name</TableCell>
-                    <TableCell>Price (PHP)</TableCell>
-                    <TableCell>Actions</TableCell>
+                  <TableRow sx={{ backgroundColor: '#0288d1' }}>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Service Name</TableCell>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Price (PHP)</TableCell>
+                    <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {services.map((service) => (
-                    <TableRow key={service.id}>
+                    <TableRow key={service.id} sx={{ '&:hover': { backgroundColor: '#f1f1f1' } }}>
                       <TableCell>{service.name}</TableCell>
                       <TableCell>{service.price}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" onClick={() => handleEditClick(service)}>
+                        <IconButton color="primary" onClick={() => handleEditClick(service)} sx={{ '&:hover': { backgroundColor: '#0288d1' } }}>
                           <Edit />
                         </IconButton>
-                        <IconButton color="error" onClick={() => handleDeleteService(service.id)}>
+                        <IconButton color="error" onClick={() => handleDeleteService(service.id)} sx={{ '&:hover': { backgroundColor: '#d32f2f' } }}>
                           <Delete />
                         </IconButton>
                       </TableCell>
@@ -99,7 +105,9 @@ function ServicesPage() {
 
             {/* Add or Edit Service Form */}
             <Box sx={{ mt: 3 }}>
-              <Typography variant="h6">{isEditing ? 'Edit Service' : 'Add a New Service'}</Typography>
+              <Typography variant="h6" sx={{ color: '#008080' }}>
+                {isEditing ? 'Edit Service' : 'Add a New Service'}
+              </Typography>
               <TextField
                 label="Service Name"
                 name="name"
@@ -107,6 +115,7 @@ function ServicesPage() {
                 onChange={handleInputChange}
                 fullWidth
                 sx={{ mt: 2 }}
+                color="primary"
               />
               <TextField
                 label="Price (PHP)"
@@ -115,11 +124,12 @@ function ServicesPage() {
                 onChange={handleInputChange}
                 fullWidth
                 sx={{ mt: 2 }}
+                color="primary"
               />
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ mt: 2 }}
+                sx={{ mt: 2, width: '100%' }}
                 onClick={isEditing ? handleEditService : handleAddService}
                 disabled={!newService.name || !newService.price}
               >

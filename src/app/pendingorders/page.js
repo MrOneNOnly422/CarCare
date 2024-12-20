@@ -1,7 +1,21 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Container, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Box } from '@mui/material';
+import {
+  Container,
+  Paper,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Box,
+  Chip,
+  Tooltip,
+} from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Layout from '../components/layout';
@@ -34,61 +48,87 @@ function PendingOrders() {
     <Layout>
       <Box
         sx={{
-          backgroundImage: `url("/img/1.jpg")`, // Replace with your image path
+          backgroundImage: `url("/img/4.jpg")`, // Updated image path
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          minHeight: '100vh',
+          minHeight: '100vh', // Ensures full height covers the viewport
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           padding: '20px',
+          marginTop: '-64px', // Adjust for AppBar height if necessary
         }}
       >
-        <Container sx={{ mt: 4 }}>
-          <Paper elevation={3} sx={{ p: 3, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}>
-            <Typography variant="h5" gutterBottom>
+        <Container>
+          <Paper elevation={6} sx={{ p: 4, backgroundColor: 'rgba(255, 255, 255, 0.9)', borderRadius: 3 }}>
+            <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', fontWeight: 'bold', color: '#00695c' }}>
               Pending Orders
             </Typography>
 
-            {/* Table to display pending orders */}
-            <TableContainer component={Paper}>
-              <Table>
+            <TableContainer component={Paper} elevation={3}>
+              <Table sx={{ minWidth: 650 }}>
                 <TableHead>
-                  <TableRow>
-                    <TableCell>Customer</TableCell>
-                    <TableCell>Product</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell>Actions</TableCell>
+                  <TableRow sx={{ backgroundColor: '#0288d1' }}>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 'bold' }}><strong>Customer</strong></TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 'bold' }}><strong>Product</strong></TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 'bold' }}><strong>Quantity</strong></TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 'bold' }}><strong>Status</strong></TableCell>
+                    <TableCell align="center" sx={{ color: 'white', fontWeight: 'bold' }}><strong>Actions</strong></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {orders.map((order) => (
-                    <TableRow key={order.id}>
-                      <TableCell>{order.customer}</TableCell>
-                      <TableCell>{order.product}</TableCell>
-                      <TableCell>{order.quantity}</TableCell>
-                      <TableCell>{order.status}</TableCell>
-                      <TableCell>
-                        {order.status === 'Pending' && (
+                    <TableRow
+                      key={order.id}
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: '#e1f5fe',
+                        },
+                      }}
+                    >
+                      <TableCell align="center" sx={{ color: '#00695c' }}>{order.customer}</TableCell>
+                      <TableCell align="center" sx={{ color: '#0288d1' }}>{order.product}</TableCell>
+                      <TableCell align="center" sx={{ color: '#7b1fa2' }}>{order.quantity}</TableCell>
+                      <TableCell align="center">
+                        <Chip
+                          label={order.status}
+                          color={
+                            order.status === 'Pending'
+                              ? 'primary'
+                              : order.status === 'Completed'
+                              ? 'success'
+                              : 'error'
+                          }
+                          variant="filled"
+                          sx={{ fontWeight: 'bold' }}
+                        />
+                      </TableCell>
+                      <TableCell align="center">
+                        {order.status === 'Pending' ? (
                           <>
-                            <IconButton
-                              color="primary"
-                              onClick={() => handleComplete(order.id)}
-                              sx={{ mr: 1 }}
-                            >
-                              <CheckCircleIcon />
-                            </IconButton>
-                            <IconButton
-                              color="error"
-                              onClick={() => handleCancel(order.id)}
-                            >
-                              <CancelIcon />
-                            </IconButton>
+                            <Tooltip title="Mark as Completed">
+                              <IconButton
+                                color="success"
+                                onClick={() => handleComplete(order.id)}
+                                sx={{ marginRight: 2, '&:hover': { backgroundColor: '#388e3c' } }}
+                              >
+                                <CheckCircleIcon />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Cancel Order">
+                              <IconButton
+                                color="error"
+                                onClick={() => handleCancel(order.id)}
+                                sx={{ '&:hover': { backgroundColor: '#d32f2f' } }}
+                              >
+                                <CancelIcon />
+                              </IconButton>
+                            </Tooltip>
                           </>
-                        )}
-                        {order.status !== 'Pending' && (
-                          <Typography>{order.status}</Typography>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            No Actions
+                          </Typography>
                         )}
                       </TableCell>
                     </TableRow>

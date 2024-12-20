@@ -1,10 +1,22 @@
 'use client';
 
 import React, { useState } from 'react';
-import Footer from '../components/footer'; // Ensure correct case and path
-import { Container, Button, Box, Grid, Card, CardContent, CardMedia, TextField, InputAdornment } from '@mui/material';
-import Layout from '../components/layout'; // or '../layouts/Layout'
+import Footer from '../components/footer';
+import {
+  Container,
+  Button,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  TextField,
+  InputAdornment,
+  Typography,
+} from '@mui/material';
+import Layout from '../components/layout';
 import SearchIcon from '@mui/icons-material/Search';
+import StarIcon from '@mui/icons-material/Star';
 
 const repairShops = [
   {
@@ -31,7 +43,6 @@ const repairShops = [
     imageUrl: "/img/4.jpg",
     rating: 3,
   },
-  // Additional shop entries...
 ];
 
 const RepairShopCard = ({ shop }) => (
@@ -40,10 +51,12 @@ const RepairShopCard = ({ shop }) => (
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      borderRadius: '16px', // Rounded corners
-      backgroundColor: '#212121', // Dark background color similar to the example
-      color: 'white', // White text for better contrast
-      boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
+      borderRadius: '16px',
+      backgroundColor: '#212121',
+      color: 'white',
+      boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+      transition: 'transform 0.3s',
+      '&:hover': { transform: 'scale(1.05)' }, // Hover effect
     }}
   >
     <CardMedia
@@ -51,56 +64,61 @@ const RepairShopCard = ({ shop }) => (
       sx={{
         height: 140,
         objectFit: 'cover',
-        borderTopLeftRadius: '16px', // Match with card border radius
+        borderTopLeftRadius: '16px',
         borderTopRightRadius: '16px',
       }}
       image={shop.imageUrl}
       alt={shop.name}
     />
-    <CardContent sx={{ flexGrow: 1 }}>
-      <Box sx={{ textAlign: 'center' }}>
-        <Button
-          color="inherit"
-          variant="text"
-          sx={{
-            color: '#90caf9', // Light blue text color
-            fontWeight: 'bold',
-            textTransform: 'none', // Keep normal text casing
-          }}
-        >
-          {shop.name}
-        </Button>
+    <CardContent>
+      <Typography
+        variant="h6"
+        component="div"
+        sx={{ textAlign: 'center', fontWeight: 'bold', marginBottom: 1 }}
+      >
+        {shop.name}
+      </Typography>
+      <Typography
+        variant="body2"
+        sx={{ textAlign: 'center', color: '#b0bec5', marginBottom: 2 }}
+      >
+        {shop.description}
+      </Typography>
+      <Box sx={{ textAlign: 'center', marginBottom: 2 }}>
+        {Array.from({ length: shop.rating }).map((_, i) => (
+          <StarIcon key={i} sx={{ color: '#ffd54f', fontSize: '1rem' }} />
+        ))}
       </Box>
-      <Box sx={{ textAlign: 'center', marginTop: 1 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
         <Button
-          color="inherit"
-          variant="text"
-          sx={{ color: 'white', textTransform: 'none' }}
+          variant="contained"
+          color="primary"
+          href="/services"
+          fullWidth
+          sx={{ borderRadius: '8px' }}
         >
-          {shop.description}
+          Visit Now
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          href="/shop"
+          fullWidth
+          sx={{ borderRadius: '8px' }}
+        >
+          Shop
         </Button>
       </Box>
     </CardContent>
-    <Box
-      sx={{
-        padding: 2,
-        display: 'flex',
-        justifyContent: 'space-between',
-        backgroundColor: '#424242', // Slightly darker footer background
-        borderBottomLeftRadius: '16px',
-        borderBottomRightRadius: '16px',
-      }}
-    >
-      <Button variant="contained" color="primary" href="/service">
-        Visit Now
-      </Button>
-      <Button variant="outlined" color="error" href="/shop">
-        Shop
-      </Button>
-    </Box>
   </Card>
 );
-
 
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -115,23 +133,41 @@ const Homepage = () => {
 
   return (
     <Layout>
-      {/* Background Box with background image */}
       <Box
         sx={{
-          backgroundImage: `url("/img/1.jpg")`, // Set the background image here
+          backgroundImage: `url("/img/1.jpg")`, // Background image
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          minHeight: '100vh', // Ensures it covers the entire viewport height
+          minHeight: '100vh', // Ensure full height covers the viewport
           padding: '20px',
+          marginTop: '-64px', // Adjust this value if your AppBar height differs
         }}
       >
+        {/* Background overlay */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: -1,
+          }}
+        />
         <Container maxWidth="md">
+          {/* Search Bar */}
           <Box sx={{ my: 4, textAlign: 'center' }}>
-            {/* Search Bar */}
             <TextField
               variant="outlined"
               placeholder="Search for repair shops..."
-              sx={{ backgroundColor: 'white', width: '100%', maxWidth: '600px', borderRadius: '25px' }}
+              sx={{
+                backgroundColor: 'white',
+                width: '100%',
+                maxWidth: '600px',
+                borderRadius: '25px',
+                boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -144,7 +180,7 @@ const Homepage = () => {
             />
           </Box>
 
-          {/* Display Repair Shop Cards */}
+          {/* Repair Shops */}
           <Grid container spacing={4} justifyContent="center">
             {filteredShops.map((shop, index) => (
               <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
@@ -154,7 +190,6 @@ const Homepage = () => {
           </Grid>
         </Container>
       </Box>
-
       <Footer />
     </Layout>
   );

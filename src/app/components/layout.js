@@ -1,7 +1,6 @@
-
 'use client';
 
-import * as React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,23 +13,23 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import Link from 'next/link'; // For Next.js; use from 'react-router-dom' for React Router
+import Link from 'next/link'; // For Next.js
 
 const pages = [
-  { label: 'Home', path: '/' },
+  { label: 'Home', path: '/homepage' },
   { label: 'Book A Service', path: '/servicebook' },
   { label: 'Shop', path: '/shop' },
   { label: 'About Us', path: '/about' },
 ];
 const settings = [
-  { label: 'Profile', path: '/profileedit(user)' }, 
-  { label: 'Account' },
+  { label: 'Profile', path: '/profileedit(user)' },
+  { label: 'Account', path: '/accountedit(User)' },
   { label: 'Logout', path: '/login' },
 ];
 
 function Layout({ children }) {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -50,14 +49,23 @@ function Layout({ children }) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="relative" sx={{ backgroundColor: '#333' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <img
-              src="/CarCare.png"
-              alt="CarCare Logo"
-              style={{ width: '40px', height: '40px', marginRight: '8px' }}
-            />
+            {/* Logo */}
+            <Link href="/" passHref>
+              <img
+                src="/CarCare.png"
+                alt="CarCare Logo"
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  marginRight: '16px',
+                  cursor: 'pointer',
+                }}
+              />
+            </Link>
+
             <Typography
               variant="h6"
               noWrap
@@ -76,10 +84,11 @@ function Layout({ children }) {
               CARCARE
             </Typography>
 
+            {/* Responsive Menu for Mobile */}
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
-                aria-label="account of current user"
+                aria-label="menu"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
@@ -106,43 +115,36 @@ function Layout({ children }) {
                 {pages.map(({ label, path }) => (
                   <MenuItem key={label} onClick={handleCloseNavMenu}>
                     <Link href={path} passHref>
-                      <Typography sx={{ textAlign: 'center' }}>{label}</Typography>
+                      <Typography textAlign="center">{label}</Typography>
                     </Link>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href="#"
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              CARCARE
-            </Typography>
+
+            {/* Desktop Navigation */}
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map(({ label, path }) => (
                 <Link key={label} href={path} passHref>
-                  <Button sx={{ my: 2, color: 'white', display: 'block' }}>
+                  <Button
+                    sx={{
+                      my: 2,
+                      color: 'white',
+                      display: 'block',
+                      '&:hover': { backgroundColor: '#000' },
+                    }}
+                  >
                     {label}
                   </Button>
                 </Link>
               ))}
             </Box>
+
+            {/* User Menu */}
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title="User Settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Profile Picture" src="/path-to-profile-picture.jpg" />
+                  <Avatar alt="User Avatar" src="/img/Kot.JPG" />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -163,13 +165,9 @@ function Layout({ children }) {
               >
                 {settings.map(({ label, path }) => (
                   <MenuItem key={label} onClick={handleCloseUserMenu}>
-                    {path ? ( // Conditional rendering for Link
-                      <Link href={path} passHref>
-                        <Typography sx={{ textAlign: 'center' }}>{label}</Typography>
-                      </Link>
-                    ) : (
-                      <Typography sx={{ textAlign: 'center' }}>{label}</Typography>
-                    )}
+                    <Link href={path} passHref>
+                      <Typography textAlign="center">{label}</Typography>
+                    </Link>
                   </MenuItem>
                 ))}
               </Menu>
@@ -178,10 +176,8 @@ function Layout({ children }) {
         </Container>
       </AppBar>
 
-      {/* Main content below the AppBar */}
-      <Box sx={{ mt: 5 }}>
-        {children}
-      </Box>
+      {/* Main Content */}
+      <Box sx={{ mt: 5 }}>{children}</Box>
     </>
   );
 }
