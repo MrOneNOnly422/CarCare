@@ -146,6 +146,7 @@ const HomePage = () => {
                           color="primary"
                           fullWidth
                           size="small"
+                          href="/payement(ITEM)"
                         >
                           Buy Now
                         </Button>
